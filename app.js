@@ -1,22 +1,62 @@
-const path = require('path');
-const express = require('express');
+const path = require("path");
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+
+const User = require("./models/user.model");
+
+const MONGODB_URI =
+  "mongodb+srv://gihtools:gihtoolsTest*@cluster0.lalrybp.mongodb.net/gih_tools_DB";
 
 const app = express();
+const store = new MongoDBStore({
+  uri: MONGODB_URI,
+  collection: "sessions",
+});
 
 const PORT = process.env.PORT || 8000;
 
 // Template engine running
-app.set('view engine', 'ejs');
-app.set('views', 'views');
+app.set("view engine", "ejs");
+app.set("views", "views");
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Getting routes
-const authRoutes = require('./routes/auth.routes');
+const authRoutes = require("./routes/auth.routes");
 
 app.use(authRoutes);
 
-app.use(express.static(path.join(__dirname, 'public')));
 
-const server = app.listen(PORT, () => {
-  console.log(`Servidor http escuchando en el puerto ${server.address().port}`);
-});
-server.on("error", (error) => console.log(`Error en servidor ${error}`));
+mongoose
+  .connect(MONGODB_URI)
+  .then((result) => {
+    User.findOne({ user: "omar" })
+      .then((result) => {
+        if (!result) {
+          const user = new User({
+            user: "omar",
+            password: "asd123",
+            flag: 5,
+          });
+          user.save();
+          console.log("User created.");
+        } else {
+          console.log("User already exist.");
+        }
+      })
+      .catch((err) => console.log(err));
+
+    const server = app.listen(PORT, () => {
+      console.log(
+        `Servidor http escuchando en el puerto ${server.address().port}`
+      );
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });

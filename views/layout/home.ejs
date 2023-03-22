@@ -2,9 +2,17 @@
 
 </head>
 <body>
+    <%- include('../includes/navbar.ejs') %>
     <section class="vh-100">
-        <h1>Hola desde adentro</h1>
-      </section>
+      <div class="container">
+        <h1 class="w-100 py-5">Bienvenido, <%= user %> !</h1>
+        <div class="container container_tools d-flex border py-5 px-5 gap">
+          <button class="btn btn-outline-info p-5">Paz y Salvo</button>
+          <button class="btn btn-outline-info p-5 disabled">Tool 2</button>
+          <button class="btn btn-outline-info p-5 disabled">Tool 3</button>
+        </div>
+      </div>
+    </section>
 
 
     <%- include('../includes/end.ejs') %>

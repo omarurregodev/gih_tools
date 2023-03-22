@@ -30,7 +30,8 @@ exports.postLogin = (req, res, next) => {
         }
 
         res.render('layout/home', {
-            pageTitle: 'GIH Tools | Home'
+            pageTitle: 'GIH Tools | Home',
+            user: user
         });
 
     }).catch(err => console.log(err));

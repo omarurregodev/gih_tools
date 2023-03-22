@@ -35,7 +35,7 @@ app.use(authRoutes);
 mongoose
   .connect(MONGODB_URI)
   .then((result) => {
-    User.findOne({ user: "omar" })
+    User.findById("64133f3523e7b4ae9b3eaafb")
       .then((result) => {
         if (!result) {
           const user = new User({

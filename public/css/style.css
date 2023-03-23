@@ -1,3 +1,8 @@
+.a__style {
+    text-decoration: none;
+    color: inherit;
+}
+
 .container_tools {
     gap: 3rem;
 }

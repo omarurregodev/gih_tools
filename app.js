@@ -30,6 +30,7 @@ app.use(express.static(path.join(__dirname, "public")));
 const authRoutes = require("./routes/auth.routes");
 const toolsRoutes = require("./routes/tools.routes");
 
+//middleware for routes
 app.use(authRoutes);
 app.use(toolsRoutes);
 

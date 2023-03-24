@@ -38,21 +38,21 @@ app.use(toolsRoutes);
 mongoose
   .connect(MONGODB_URI)
   .then((result) => {
-    User.findById("64133f3523e7b4ae9b3eaafb")
-      .then((result) => {
-        if (!result) {
-          const user = new User({
-            user: "omar",
-            password: "asd123",
-            flag: 5,
-          });
-          user.save();
-          console.log("User created.");
-        } else {
-          console.log("User already exist.");
-        }
-      })
-      .catch((err) => console.log(err));
+    // User.findById("64133f3523e7b4ae9b3eaafb")
+    //   .then((result) => {
+    //     if (!result) {
+    //       const user = new User({
+    //         user: "omar",
+    //         password: "asd123",
+    //         flag: 5,
+    //       });
+    //       user.save();
+    //       console.log("User created.");
+    //     } else {
+    //       console.log("User already exist.");
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
 
     const server = app.listen(PORT, () => {
       console.log(

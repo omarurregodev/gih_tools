@@ -1,0 +1,65 @@
+.gradient-form {
+    background: hsla(213, 77%, 14%, 1);
+
+background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+
+background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+
+background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#08203e", endColorstr="#557c93", GradientType=1 );
+}
+
+.card {
+    border-color: gray;
+    box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+    0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: rgb(22, 179, 155);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(90deg, rgba(22, 179, 155, 1) 0%, rgba(0, 184, 156, 1) 38%, rgba(0, 59, 114, 1) 100%);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(90deg, rgba(22, 179, 155, 1) 0%, rgba(0, 184, 156, 1) 38%, rgba(0, 59, 114, 1) 100%);
+}
+
+.btn_login {
+    background-color: rgba(0, 59, 114, 1);
+    border: 1px solid rgba(0, 59, 114, 1);
+    color: whitesmoke;
+}
+
+.btn_login:hover {
+    background-color: rgba(0, 59, 114, 0.1);
+    border: 1px solid rgba(0, 59, 114, 1);
+    color: rgba(0, 59, 114, 1);
+    transition-duration: 0.3s;
+}
+
+.btn_signup {
+    background-color: none;
+    border: 1px solid rgba(0, 202, 172, 1);
+    color: rgba(0, 202, 172, 1);
+}
+
+.btn_signup:hover {
+    background-color: rgba(0, 202, 172, 0.2);
+    border: 1px solid rgba(15, 129, 112, 1);
+    color: rgba(15, 129, 112, 1);
+    transition-duration: 0.3s;
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}

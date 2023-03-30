@@ -42,7 +42,7 @@ mongoose
     //   .then((result) => {
     //     if (!result) {
     //       const user = new User({
-    //         user: "omar",
+    //         email: "omar",
     //         password: "asd123",
     //         flag: 5,
     //       });

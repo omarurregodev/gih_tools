@@ -33,32 +33,49 @@ app.use(toolsRoutes);
 app.use(clientRoutes);
 
 //Config database
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER,
-process.env.DB_PASSWORD, {
-	host: process.env.DB_HOST,
-	dialect: process.env.DB_DIALECT,
-	operationsAliases: false,
-	pool: {
-	max: Number(String(process.env.DB_MAX)),
-	min: Number(String(process.env.DB_MIN)),
-	acquire: process.env.DB_ACQUIRE,
-	idle: process.env.DB_IDLE
-	}
-});
-const db = require("./models");
+// const {Sequelize} = require("sequelize");
+const sequelize = require('./utils/database');
 
-sequelize.authenticate().then(() => {
-	console.log('Connection has been established successfully.');
- }).catch((error) => {
-	console.error('Unable to connect to the database: ', error);
- });
+// Requering the models
+
+const User = require("./models/usuarios");
+
+app.use((req, res, next) => {
+  User.findByPk(1).then(user => {
+    req.user = user;
+    next();
+  }).catch(err => console.log(err));
+})
+
+// sequelize.authenticate().then(() => {
+// 	console.log('Connection has been established successfully.');
+//  }).catch((error) => {
+// 	console.error('Unable to connect to the database: ', error);
+//  });
 
 
-db.sequelize.sync({ force: false }).then(function () {  
-	app.listen(PORT, function () {    
-		console.log(
-			`Servidor http escuchando en el puerto ${server.address().port}`
-		  ); 
-	});
+// sequelize.sync({ force: false }).then(function () { 
+   
+// 	app.listen(PORT, function () {    
+// 		console.log(
+// 			`Servidor http escuchando en el puerto ${PORT}`
+// 		  ); 
+// 	});
+// });
+
+sequelize.sync().then((result) => {
+  return User.findByPk(1);
+}).then(user => {
+  if (!user) {
+    return User.create({username: 'omar', correo: 'omar@gmail.com', password: 'asd123', nombre: 'testName', estado: 1})
+  }
+  return user
+}).then(user => {
+  app.listen(PORT, function () {    
+    		console.log(
+    			`Servidor http escuchando en el puerto ${PORT}`
+    		  ); 
+    	});
+}).catch((err) => {
+  console.log(err);
 });

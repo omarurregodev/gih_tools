@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require("../models/usuarios");
 
 exports.getLogin = (req, res, next) => {
     
@@ -13,7 +14,7 @@ exports.postLogin = (req, res, next) => {
     const user = req.body.user;
     const password = req.body.password;
 
-    User.findOne({user: user}).then(result => {
+    User.findOne({where: {username: user}}).then(result => {
         console.log(result);
         if (!result) {
             return res.render('auth/login', {

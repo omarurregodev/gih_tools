@@ -1,20 +1,16 @@
+const dotenv = require("dotenv")
+dotenv.config()
+
+
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
 const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session);
 
-const User = require("./models/user.model");
 
-const MONGODB_URI =
-  "mongodb+srv://gihtools:gihtoolsTest*@cluster0.lalrybp.mongodb.net/gih_tools_DB";
 
 const app = express();
-const store = new MongoDBStore({
-  uri: MONGODB_URI,
-  collection: "sessions",
-});
+
 
 const PORT = process.env.PORT || 8000;
 
@@ -34,32 +30,33 @@ const toolsRoutes = require("./routes/tools.routes");
 app.use(authRoutes);
 app.use(toolsRoutes);
 
+//Config database
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER,
+process.env.DB_PASSWORD, {
+	host: process.env.DB_HOST,
+	dialect: process.env.DB_DIALECT,
+	operationsAliases: false,
+	pool: {
+	max: Number(String(process.env.DB_MAX)),
+	min: Number(String(process.env.DB_MIN)),
+	acquire: process.env.DB_ACQUIRE,
+	idle: process.env.DB_IDLE
+	}
+});
+const db = require("./models");
 
-mongoose
-  .connect(MONGODB_URI)
-  .then((result) => {
-    // User.findById("64133f3523e7b4ae9b3eaafb")
-    //   .then((result) => {
-    //     if (!result) {
-    //       const user = new User({
-    //         email: "omar",
-    //         password: "asd123",
-    //         flag: 5,
-    //       });
-    //       user.save();
-    //       console.log("User created.");
-    //     } else {
-    //       console.log("User already exist.");
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
+sequelize.authenticate().then(() => {
+	console.log('Connection has been established successfully.');
+ }).catch((error) => {
+	console.error('Unable to connect to the database: ', error);
+ });
 
-    const server = app.listen(PORT, () => {
-      console.log(
-        `Servidor http escuchando en el puerto ${server.address().port}`
-      );
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+
+db.sequelize.sync({ force: false }).then(function () {  
+	app.listen(PORT, function () {    
+		console.log(
+			`Servidor http escuchando en el puerto ${server.address().port}`
+		  ); 
+	});
+});

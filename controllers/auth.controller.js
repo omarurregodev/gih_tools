@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const User = require('../models/user.model');
-
 exports.getLogin = (req, res, next) => {
+    
+    console.log(process.env.DB_USER);
     res.render('auth/login', {
         pageTitle: 'GIH Tools | Login',
         messageError: ''

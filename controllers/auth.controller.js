@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+
 const User = require("../models/usuarios");
 
 exports.getLogin = (req, res, next) => {

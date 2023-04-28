@@ -29,10 +29,12 @@ app.use(express.static(path.join(__dirname, "public")));
 // Getting routes
 const authRoutes = require("./routes/auth.routes");
 const toolsRoutes = require("./routes/tools.routes");
+const clientRoutes = require("./routes/client.routes");
 
 //middleware for routes
 app.use(authRoutes);
 app.use(toolsRoutes);
+app.use(clientRoutes);
 
 
 mongoose

@@ -1,0 +1,65 @@
+<%- include('../includes/head.ejs') %>
+
+</head>
+<body>
+    <%- include('../includes/navbar_client.ejs') %>
+    <section class="vh-100">
+      <div class="container">
+        <div class=" w-100 py-5">
+            <h1 class="">Bienvenido a GIH!</h1>
+            <p>A través del siguiente formulario, puedes solicitar el Paz y Salvo de tu inmueble para conceptos de administración.</p>
+        </div>
+        <div class="container container_tools d-flex border py-5 px-5 gap">
+            <form action="/solicitud_paz_y_salvo" method="post" class="w-100">
+                <div class="input-group mb-3 w-100">
+                    <h3 class="w-auto">Busca el nombre del conjunto/edificio: </h3>
+                    <span class="input-group-text border-0" id="search-addon"><i class="fas fa-search"></i></span>
+                    <select class="select_userAdmon w-100" name="state">
+                        <option value="AL">Alabama</option>
+                        <option value="WY">Wyoming</option>
+                        <!-- In this part, we are going to add the usersAdmon labels -->
+                    </select>
+                </div>
+                <hr>
+                <h3 class="w-100 pt-4">Datos del copropietario</h3>
+                <div class="form w-100 pt-5 pb-3">
+                    <input type="text" id="id_number" class="form-control" placeholder="Número de identificación del propietario"/>
+                </div>
+                <div class="input-group mb-3 pb-3">
+                    <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Nombres"
+                    aria-label="Nombres"
+                    />
+                    <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Apellidos"
+                    aria-label="Apellidos"
+                    />
+                </div>
+                <h3 class="w-100 pt-4">Datos de la propiedad</h3>
+                <div class="mb-3 pt-5 pb-2">
+                    <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Número de apartamento"
+                    aria-label="Num_apartamento"
+                    />
+                </div>
+                <div class="form-check pb-5">
+                    <input class="form-check-input" type="checkbox" value="" id="parking_spot" checked/>
+                    <label class="form-check-label" for="parking_spot">Tiene parqueadero(s)</label>
+                </div>
+                <hr>
+                <div class="w-100 text-center">
+                    <button type="submit" class="btn btn-success btn-rounded">Solicitar Paz y Salvo</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </section>
+
+
+    <%- include('../includes/end.ejs') %>

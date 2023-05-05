@@ -1,10 +1,11 @@
 const express = require('express');
 
-const toolsController = require('../controllers/tools.controller');
+const toolsController = require('../controllers/pazysalvo.controller');
 
 const router = express.Router();
 
-router.get('/paz_y_salvo', toolsController.getToolPazSalvo);
+//paz y salvo
+router.get('/paz_y_salvos/panel', toolsController.getPanel);
 
 
 module.exports = router;

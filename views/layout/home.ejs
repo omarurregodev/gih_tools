@@ -5,11 +5,23 @@
     <%- include('../includes/navbar.ejs') %>
     <section class="vh-100">
       <div class="container">
-        <h1 class="w-100 py-5">Bienvenido, <%= user %> !</h1>
+        <h1 class="w-100 py-5">Bienvenido, <%= user.nombre %> !</h1>
         <div class="container container_tools d-flex border py-5 px-5 gap">
-          <a href="/paz_y_salvo" class="a__style btn btn-outline-info p-5">Paz y Salvo</a>
-          <button class="btn btn-outline-info p-5 disabled">Tool 2</button>
-          <button class="btn btn-outline-info p-5 disabled">Tool 3</button>
+          <% servicios.forEach(function(servicio){ %>
+            <% if (servicio.estado == 1) { %>
+              <a href="/<%= (String(servicio.nombre_servicio).replace(/ /g, '_')).toLowerCase() %>/panel" class="a__style btn btn-outline-info p-5">
+                <h4><%= servicio.nombre_servicio %></h4>
+                <small><%= servicio.descripcion_servicio %></small><br>
+                <small style="color:green">Activa</small>
+              </a>
+            <% }else{ %>
+              <a href="#" class="a__style btn btn-outline-info p-5">
+                <h4><%= servicio.nombre_servicio %></h4>
+                <small><%= servicio.descripcion_servicio %></small><br>
+                <small style="color:red">Inactiva</small>
+              </a>
+            <% } %>
+          <% }); %>
         </div>
       </div>
     </section>

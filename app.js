@@ -6,11 +6,18 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
-
+const cookieParser = require("cookie-parser");
 
 
 const app = express();
 
+app.use(cookieParser());
+ 
+app.use(session({
+    secret: "amar",
+    saveUninitialized: true,
+    resave: true
+}));
 
 const PORT = process.env.PORT || 8000;
 
@@ -24,12 +31,12 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Getting routes
 const authRoutes = require("./routes/auth.routes");
-const toolsRoutes = require("./routes/tools.routes");
+const pasysalvoRoutes = require("./routes/pazysalvo.routes");
 const clientRoutes = require("./routes/client.routes");
 
 //middleware for routes
 app.use(authRoutes);
-app.use(toolsRoutes);
+app.use(pasysalvoRoutes);
 app.use(clientRoutes);
 
 //Config database
@@ -47,21 +54,6 @@ app.use((req, res, next) => {
   }).catch(err => console.log(err));
 })
 
-// sequelize.authenticate().then(() => {
-// 	console.log('Connection has been established successfully.');
-//  }).catch((error) => {
-// 	console.error('Unable to connect to the database: ', error);
-//  });
-
-
-// sequelize.sync({ force: false }).then(function () { 
-   
-// 	app.listen(PORT, function () {    
-// 		console.log(
-// 			`Servidor http escuchando en el puerto ${PORT}`
-// 		  ); 
-// 	});
-// });
 
 sequelize.sync().then((result) => {
   return User.findByPk(1);

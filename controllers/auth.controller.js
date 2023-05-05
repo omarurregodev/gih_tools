@@ -23,6 +23,10 @@ exports.postLogin = (req, res, next) => {
             });
         }
 
+        //Guardando sesion
+        req.session.user = result;
+        req.session.save();
+
         if (result.password !== password) {
             return res.render('auth/login', {
                 messageError: 'La contraseña ingresada es incorrecta!',

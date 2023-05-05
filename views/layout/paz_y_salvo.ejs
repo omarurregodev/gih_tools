@@ -3,6 +3,224 @@
 </head>
 <body>
     <%- include('../includes/navbar.ejs') %>
-    <h1>HOLA DESDE PAZ Y SALVO</h1>
+    <section class="vh-100">
+      <div class="container">
+        <h3 class="w-100 py-5">Gestiona tus solicitudes, <%= user.nombre %>!</h3>
+        
+        <div class="row">
+            <!-- Button trigger modal -->
+            <div class="col-4">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Configuracion de conjunto
+                </button>
+            </div>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Configura tu conjunto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Nombre conjunto</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" value="<%= conjunto.nombre %>">
+                            <div id="emailHelp" class="form-text">Esto se mostrara en información</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Direccion</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" value="<%= conjunto.direccion %>">
+                            <div id="emailHelp" class="form-text">Esto se mostrara en información</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Ciudad</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" value="<%= conjunto.ciudad %>">
+                            <div id="emailHelp" class="form-text">Esto se mostrara en información</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Pais</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" value="<%= conjunto.pais %>">
+                            <div id="emailHelp" class="form-text">Esto se mostrara en información</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Costo de certificado</label>
+                            <input type="number" class="form-control" id="exampleInputPassword1" value="<%= conjunto.costo_certificado %>">
+                            <div id="emailHelp" class="form-text">El costo que deberan pagar los usuarios por cada certificado de paz y salvo que tramiten</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Divisa</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" value="<%= conjunto.moneda %>">
+                            <div id="emailHelp" class="form-text">La divisa con la que deberan pagar los usuarios por cada certificado de paz y salvo que tramiten</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFileSm" class="form-label">Firma del administrador</label>
+                            <input class="form-control form-control-sm" id="formFileSm" type="file">
+                            <div id="emailHelp" class="form-text">La firma del aval del certificado de paz y salvo</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFileSm" class="form-label">Formato de paz y salvo</label>
+                            <input class="form-control form-control-sm" id="formFileSm" type="file">
+                            <div id="emailHelp" class="form-text">Formato del certificado de paz y salvo</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </div>
+                </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 10px;">
+            <div class="col-md-5 mx-auto">
+                <div class="small fw-light">Busca solicitudes</div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Ingresa la cedula o nombre a buscar..." aria-label="Ingresa la cedula o nombre a buscar..." aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#solicitudesPendientes" aria-expanded="false" aria-controls="solicitudesPendientes">
+                      Solicitudes pendientes   <span class="badge rounded-pill bg-danger" style="margin-left: 5px;"><%= (solicitudes_pendientes.length > 0) ? solicitudes_pendientes.length : 0 %></span>
+                    </button>
+                  </h2>
+                  <div id="solicitudesPendientes" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">ID registro</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Propietario</th>
+                                <th scope="col">Conjunto</th>
+                                <th scope="col">Propiedad</th>
+                                <th scope="col">Saldo pendiente</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <% solicitudes_pendientes.forEach(function(solicitud){ %>
+                                    <tr>
+                                        <td><%= solicitud.id_registro %></td>
+                                        <td><%= solicitud.fecha %></td>
+                                        <td>
+                                            <%= solicitud.cedula_propietario %>
+                                            <br><small><%= solicitud.nombre_propietario %></small>
+                                            <br><small><%= solicitud.correo_propietario %></small>
+                                        </td>
+                                        <td><%= solicitud.nombre_conjunto %></td>
+                                        <td><%= solicitud.apartamento_propiedad %></td>
+                                        <td><%= solicitud.monto %></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                          </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#solicitudesPagas" aria-expanded="true" aria-controls="solicitudesPagas">
+                        Solicitudes pagas   <span class="badge rounded-pill bg-warning" style="margin-left: 5px;"><%= (solicitudes_pagas.length > 0) ? solicitudes_pagas.length : 0 %></span>
+                      </button>
+                    </h2>
+                    <div id="solicitudesPagas" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                        <p class="text-center">Aqui encontraras las solicitudes que ya fueron pagadas por los usuarios</p>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID registro</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Propietario</th>
+                                <th scope="col">Conjunto</th>
+                                <th scope="col">Propiedad</th>
+                                <th scope="col">Monto</th>
+                                <th scope="col">Enviar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <% solicitudes_pagas.forEach(function(solicitud){ %>
+                                    <tr>
+                                        <td><%= solicitud.id_registro %></td>
+                                        <td><%= solicitud.fecha %></td>
+                                        <td>
+                                            <%= solicitud.cedula_propietario %>
+                                            <br><small><%= solicitud.nombre_propietario %></small>
+                                            <br><small><%= solicitud.correo_propietario %></small>
+                                        </td>
+                                        <td><%= solicitud.nombre_conjunto %></td>
+                                        <td><%= solicitud.apartamento_propiedad %></td>
+                                        <td><%= solicitud.monto %></td>
+                                        <td>
+                                        <button type="button" data-id-registro="<%= solicitud.id_registro %>" class="btn btn-info enviar">Enviar <i class="fa-solid fa-envelope"></i></button>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#solicitudesEnviadas" aria-expanded="false" aria-controls="solicitudesEnviadas">
+                        Solicitudes enviadas <span class="badge rounded-pill bg-success" style="margin-left: 5px;"><%= (solicitudes_enviadas.length > 0) ? solicitudes_enviadas.length : 0 %></span>
+                      </button>
+                    </h2>
+                    <div id="solicitudesEnviadas" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                          <table class="table">
+                              <thead>
+                                <tr>
+                                  <th scope="col">ID registro</th>
+                                  <th scope="col">Fecha solicitud</th>
+                                  <th scope="col">Fecha envio</th>
+                                  <th scope="col">Propietario</th>
+                                  <th scope="col">Conjunto</th>
+                                  <th scope="col">Propiedad</th>
+                                  <th scope="col">Monto</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  <% solicitudes_enviadas.forEach(function(solicitud){ %>
+                                      <tr>
+                                        <td><%= solicitud.id_registro %></td>  
+                                        <td><%= solicitud.fecha %></td>
+                                          <td><%= solicitud.fecha_envio %></td>
+                                          <td>
+                                              <%= solicitud.cedula_propietario %>
+                                              <br><small><%= solicitud.nombre_propietario %></small>
+                                              <br><small><%= solicitud.correo_propietario %></small>
+                                          </td>
+                                          <td><%= solicitud.nombre_conjunto %></td>
+                                          <td><%= solicitud.apartamento_propiedad %></td>
+                                          <td><%= solicitud.monto %></td>
+                                      </tr>
+                                  <% }); %>
+                              </tbody>
+                            </table>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+          
+        
+      </div>
+    </section>
+
+<script>
+    $('button.enviar').click(function(){
+        id_registro = $(this).data('id-registro');
+        alert(id_registro);
+    });
+</script>
+
 
 <%- include('../includes/end.ejs') %>

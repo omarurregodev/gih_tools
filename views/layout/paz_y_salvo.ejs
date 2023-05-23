@@ -85,23 +85,25 @@
         <div class="row">
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
-                  <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#solicitudesPendientes" aria-expanded="false" aria-controls="solicitudesPendientes">
-                      Solicitudes pendientes   <span class="badge rounded-pill bg-danger" style="margin-left: 5px;"><%= (solicitudes_pendientes.length > 0) ? solicitudes_pendientes.length : 0 %></span>
-                    </button>
-                  </h2>
-                  <div id="solicitudesPendientes" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
+                    <h2 class="accordion-header" id="headingOne">
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#solicitudesPendientes" aria-expanded="true" aria-controls="solicitudesPendientes">
+                        Solicitudes pendientes   <span class="badge rounded-pill bg-warning" style="margin-left: 5px;"><%= (solicitudes_pendientes.length > 0) ? solicitudes_pendientes.length : 0 %></span>
+                      </button>
+                    </h2>
+                    <div id="solicitudesPendientes" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                        <p class="text-center">Aqui encontraras las solicitudes que ya fueron pagadas por los usuarios y que debes aprobar</p>
                         <table class="table">
                             <thead>
-                              <tr>
+                            <tr>
                                 <th scope="col">ID registro</th>
                                 <th scope="col">Fecha</th>
                                 <th scope="col">Propietario</th>
                                 <th scope="col">Conjunto</th>
                                 <th scope="col">Propiedad</th>
-                                <th scope="col">Saldo pendiente</th>
-                              </tr>
+                                <th scope="col">Monto</th>
+                                <th scope="col">Aprobar</th>
+                            </tr>
                             </thead>
                             <tbody>
                                 <% solicitudes_pendientes.forEach(function(solicitud){ %>
@@ -114,51 +116,10 @@
                                             <br><small><%= solicitud.correo_propietario %></small>
                                         </td>
                                         <td><%= solicitud.nombre_conjunto %></td>
-                                        <td><%= solicitud.apartamento_propiedad %></td>
-                                        <td><%= solicitud.monto %></td>
-                                    </tr>
-                                <% }); %>
-                            </tbody>
-                          </table>
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#solicitudesPagas" aria-expanded="true" aria-controls="solicitudesPagas">
-                        Solicitudes pagas   <span class="badge rounded-pill bg-warning" style="margin-left: 5px;"><%= (solicitudes_pagas.length > 0) ? solicitudes_pagas.length : 0 %></span>
-                      </button>
-                    </h2>
-                    <div id="solicitudesPagas" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <p class="text-center">Aqui encontraras las solicitudes que ya fueron pagadas por los usuarios</p>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">ID registro</th>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Propietario</th>
-                                <th scope="col">Conjunto</th>
-                                <th scope="col">Propiedad</th>
-                                <th scope="col">Monto</th>
-                                <th scope="col">Enviar</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <% solicitudes_pagas.forEach(function(solicitud){ %>
-                                    <tr>
-                                        <td><%= solicitud.id_registro %></td>
-                                        <td><%= solicitud.fecha %></td>
-                                        <td>
-                                            <%= solicitud.cedula_propietario %>
-                                            <br><small><%= solicitud.nombre_propietario %></small>
-                                            <br><small><%= solicitud.correo_propietario %></small>
-                                        </td>
-                                        <td><%= solicitud.nombre_conjunto %></td>
-                                        <td><%= solicitud.apartamento_propiedad %></td>
+                                        <td><%= solicitud.numero_propiedad %></td>
                                         <td><%= solicitud.monto %></td>
                                         <td>
-                                        <button type="button" data-id-registro="<%= solicitud.id_registro %>" class="btn btn-info enviar">Enviar <i class="fa-solid fa-envelope"></i></button>
+                                        <button type="button" data-id-registro="<%= solicitud.id_registro %>" class="btn btn-success aprobar">Aprobar <i class="fa-solid fa-check"></i></button>
                                         </td>
                                     </tr>
                                 <% }); %>
@@ -170,11 +131,12 @@
                   <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#solicitudesEnviadas" aria-expanded="false" aria-controls="solicitudesEnviadas">
-                        Solicitudes enviadas <span class="badge rounded-pill bg-success" style="margin-left: 5px;"><%= (solicitudes_enviadas.length > 0) ? solicitudes_enviadas.length : 0 %></span>
+                        Solicitudes aprobadas <span class="badge rounded-pill bg-success" style="margin-left: 5px;"><%= (solicitudes_enviadas.length > 0) ? solicitudes_enviadas.length : 0 %></span>
                       </button>
                     </h2>
                     <div id="solicitudesEnviadas" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                       <div class="accordion-body">
+                          <p class="text-center">Aqui encontraras las solicitudes que ya fueron aprobadas por el administrador y que por ende pueden ser descargadas</p>
                           <table class="table">
                               <thead>
                                 <tr>
@@ -199,7 +161,7 @@
                                               <br><small><%= solicitud.correo_propietario %></small>
                                           </td>
                                           <td><%= solicitud.nombre_conjunto %></td>
-                                          <td><%= solicitud.apartamento_propiedad %></td>
+                                          <td><%= solicitud.numero_propiedad %></td>
                                           <td><%= solicitud.monto %></td>
                                       </tr>
                                   <% }); %>
@@ -216,9 +178,17 @@
     </section>
 
 <script>
-    $('button.enviar').click(function(){
+    $('button.aprobar').click(function(){
         id_registro = $(this).data('id-registro');
-        alert(id_registro);
+        
+        $.post( "/paz_y_salvos/editar_solicitud",{id_solicitud:id_registro,tipo:'aprobar'}, function( data ) {
+          alert(data);
+          swal({
+            title: "Solicitud aprobada",
+            icon: "success",
+            text: 'Se dara por aprobada la solicitud con ID '+id_registro+' y podra ser descargada por el usuario',
+          });
+        });  
     });
 </script>
 

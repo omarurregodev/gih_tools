@@ -35,7 +35,6 @@ exports.postLogin = (req, res, next) => {
         }
 
         Servicios.findAll().then(result_servicios => {
-            console.log(result_servicios);
             consolidado_servicios = [];
             result_servicios.forEach(function(servicio){
                 consolidado_servicios['servicio'+servicio.id] = {

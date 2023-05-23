@@ -1,0 +1,189 @@
+<%- include('../includes/head.ejs') %>
+
+</head>
+<body>
+    <%- include('../includes/navbar_client.ejs') %>
+    <section class="vh-100">
+      <div class="container">
+        <div class=" w-100 py-5">
+            <h1 class="">Bienvenido a GIH!</h1>
+            <p>A través del siguiente formulario, puedes solicitar el Paz y Salvo de tu inmueble para conceptos de administración.</p>
+        </div>
+        <div class="container container_tools d-flex border py-5 px-5 gap">
+            <div class="w-100">
+                <div class="input-group mb-3 w-100">
+                    <h3 class="w-auto">Busca el nombre del conjunto/edificio: </h3>
+                    <span class="input-group-text border-0" id="search-addon"><i class="fas fa-search"></i></span>
+                    <select id="lista_conjuntos" class="select_userAdmon w-100" name="state">
+                        <option value="0">Seleccione el nombre del conjunto</option>
+                        <% conjuntos.forEach(function(conjunto){ %>
+                            <option value="<%= conjunto.id%>"><%= conjunto.nombre_conjunto %> (<%= conjunto.ciudad_conjunto %>-<%= conjunto.pais_conjunto %>)</option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div id="seccion_info" class="mb-3 pb-3">
+                </div>
+                <hr>
+                <div id="seccion_informacion">
+                    <h3 class="w-100 pt-4">Datos del propietario</h3>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Nombre completo</label>
+                        <input type="text" class="form-control" id="nombre" aria-describedby="emailHelp" placeholder="Nombre completo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Número de identificación</label>
+                        <input type="text" class="form-control" id="identificacion" aria-describedby="emailHelp" placeholder="Número de identificación">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" placeholder="Correo electrónico">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Número celular</label>
+                        <input type="tel" class="form-control" id="celular" aria-describedby="emailHelp" placeholder="Número celular">
+                        <div id="emailHelp" class="form-text">Ten presente digitarlo correctamente ya que a este será enviado un código para proseguir con el proceso</div>
+                    </div>
+    
+                    <h3 class="w-100 pt-4">Datos de la propiedad</h3>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Número de apartamento</label>
+                        <input type="text" class="form-control" id="numero_apto" aria-describedby="emailHelp" placeholder="Número de apartamento">
+                    </div>
+                    <div class="form-check pb-5">
+                        <input class="form-check-input" type="checkbox" id="garaje"/>
+                        <label class="form-check-label" for="parking_spot">Tiene parqueadero(s)</label>
+                    </div>
+                    <div class="form-check pb-5">
+                        <input class="form-check-input" type="checkbox" id="deposito"/>
+                        <label class="form-check-label" for="parking_spot">Tiene deposito(s)</label>
+                    </div>
+                    <hr>
+                    <div class="w-100 text-center">
+                        <button id="validar_solicitud" class="btn btn-success btn-rounded">Validar datos</button>
+                    </div>
+                </div>
+
+                <div id="seccion_validacion_codigo" class="w-100 text-center">
+                    <label class="form-check-label" for="parking_spot">Ha sido enviado un codigo al numero de celular registrado, por favor ingresalo para continuar</label>
+                    <div class="input-group mb-3">
+                        <input id="codigo" type="text" class="form-control" placeholder="Ingresa el codigo enviado" aria-label="Ingresa el codigo enviado" aria-describedby="button-addon2">
+                        <button id="validar_codigo" class="btn btn-outline-secondary" type="button" id="button-addon2">Validar</button>
+                    </div>
+                    <hr>
+                </div>
+
+                <div id="seccion_pago" class="w-100 text-center">
+                    <label class="form-check-label" for="parking_spot">Para finalizar por favor genera el pago por <p id="valor_pago"></p></label>
+                    <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
+                        <input name="merchantId"      type="hidden"  value="508029"   >
+                        <input name="accountId"       type="hidden"  value="512321" >
+                        <input name="description"     type="hidden"  value="Pago paz y salvo GIH"  >
+                        <input name="referenceCode"   type="hidden"  value="TestPayU" >
+                        <input name="amount"          type="hidden"  value="15000"   >
+                        <input name="tax"             type="hidden"  value="0"  >
+                        <input name="taxReturnBase"   type="hidden"  value="15000" >
+                        <input name="currency"        type="hidden"  value="COP" >
+                        <input name="signature"       type="hidden"  value="caa9c2aad00c49bf6b9b6c7d5587f59f"  >
+                        <input name="test"            type="hidden"  value="0" >
+                        <input name="buyerEmail"      type="hidden"  value="test@test.com" >
+                        <input name="responseUrl"     type="hidden"  value="http://www.test.com/response" >
+                        <input name="confirmationUrl" type="hidden"  value="http://www.test.com/confirmation" >
+                        <input type = "image" src="//cdn-app.datawifi.co/bundles/Imagenes/payu/boton_pago.png" alt="Submit Form" />
+                      </form>
+                </div>
+
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+        var conjuntos_objeto =<%-JSON.stringify(conjuntos)%>;
+        var codigo_respuesta = '';
+
+        $(document).ready(function(){
+            $('#seccion_validacion_codigo').hide();
+            $('#seccion_pago').hide();
+            $('#seccion_informacion').hide();
+
+            //Prueba
+            $("#nombre").val('Alejandro rios');
+            $("#identificacion").val('1010217152');
+            $("#correo").val('alejandrorios1109@gmail.com');
+            $("#celular").val('316374761');
+            $("#numero_apto").val('101');
+        });
+        
+        $('#lista_conjuntos').change(function(){
+            id_conjunto = $(this).val();
+            
+            $('#seccion_info').empty(); 
+            $('#valor_pago').empty(); 
+            conjuntos_objeto.forEach(function(conjunto){
+                if(conjunto.id == id_conjunto){
+                    console.log('entro');
+                    $('#seccion_info').append("<h6>Datos del conjunto</h6><ul><li>Nombre conjunto: "+conjunto.nombre_conjunto+"</li><li>Direccion: "+conjunto.direccion_conjunto+"</li><li>Ciudad: "+conjunto.ciudad_conjunto+"</li><li>Pais: "+conjunto.pais_conjunto+"</li><li>Costo: $"+conjunto.costo_certificado_conjunto+' '+conjunto.moneda_conjunto+"</li></ul>"); 
+                    $('#valor_pago').text("$"+conjunto.costo_certificado_conjunto+' '+conjunto.moneda_conjunto);
+                    $('#seccion_informacion').show();
+                }
+                
+            });
+        });
+
+        $('#validar_solicitud').click(function(){
+            conjunto       = $("#lista_conjuntos").val();
+            nombre         = $("#nombre").val();
+            identificacion = $("#identificacion").val();
+            correo         = $("#correo").val();
+            celular        = $("#celular").val();
+            numero_apto    = $("#numero_apto").val();
+            garaje         = $("#garaje").prop('checked');
+            deposito       = $("#deposito").prop('checked');
+
+            datos = {
+                conjunto:conjunto,
+                nombre:nombre,
+                identificacion:identificacion,
+                correo:correo,
+                celular:celular,
+                numero_apto:numero_apto,
+                garaje:garaje,
+                deposito:deposito
+            };
+        
+            $.post( "/validar_paz_y_salvo",datos, function( data ) {
+                if(data.estado){
+                    $('#seccion_validacion_codigo').show();
+                    $('#seccion_informacion').hide();
+                    codigo_respuesta = data.data.codigo;
+                }else{
+                    swal({
+                        title: "Solicitud rechazada",
+                        icon: "error",
+                        text: 'Los datos ingresados no coinciden con ninguna propiedad',
+                    });
+                }
+            });  
+        });
+
+        $('#validar_codigo').click(function(){
+            codigo = $('#codigo').val();
+            console.log(codigo);
+            console.log(codigo_respuesta);
+            if (codigo.length > 0 && codigo == codigo_respuesta) {
+                $('#seccion_validacion_codigo').hide();
+                $('#seccion_pago').show();
+            } else {
+                swal({
+                    title: "Codigo no valido",
+                    icon: "error",
+                    text: 'El codigo ingresado no es valido',
+                });
+            }
+            
+        });
+
+    </script>
+
+
+    <%- include('../includes/end.ejs') %>

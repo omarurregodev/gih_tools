@@ -21,14 +21,20 @@ const Paz_Propiedades = sequelize.define("paz_propiedades", {
   correo_propietario: {
     type: Sequelize.STRING(40),
   },
-  manzana_propiedad: {
+  celular_propietario: {
     type: Sequelize.STRING(40),
   },
-  torre_propiedad: {
+  tipo_propiedad: {
     type: Sequelize.STRING(40),
   },
-  apartamento_propiedad: {
+  numero_propiedad: {
     type: Sequelize.STRING(40),
+  },
+  matricula_propiedad: {
+    type: Sequelize.STRING(40),
+  },
+  asociado: {
+    type: Sequelize.STRING(10),
   },
   estado: {
     type: Sequelize.INTEGER,

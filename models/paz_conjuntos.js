@@ -12,22 +12,31 @@ const Paz_Conjuntos = sequelize.define("paz_conjuntos", {
   id_usuario: {
     type: Sequelize.INTEGER,
   },
-  nombre: {
+  nombre_conjunto: {
     type: Sequelize.STRING(40),
   },
-  ciudad: {
+  ciudad_conjunto: {
     type: Sequelize.STRING(40),
   },
-  pais: {
+  pais_conjunto: {
     type: Sequelize.STRING(40),
   },
-  direccion: {
+  direccion_conjunto: {
     type: Sequelize.STRING(40),
   },
-  costo_certificado: {
+  georeferencia_conjunto: {
+    type: Sequelize.STRING(200),
+  },
+  cedula_administrador: {
+    type: Sequelize.STRING(40),
+  },
+  nombre_administrador: {
+    type: Sequelize.STRING(40),
+  },
+  costo_certificado_conjunto: {
     type: Sequelize.FLOAT,
   },
-  moneda: {
+  moneda_conjunto: {
     type: Sequelize.STRING(5),
   },
   estado: {
@@ -35,7 +44,7 @@ const Paz_Conjuntos = sequelize.define("paz_conjuntos", {
   }
 },{
   timestamps: false,
-  createdAt: false,
+  createdAt: true,
   updatedAt: false
 });
 
